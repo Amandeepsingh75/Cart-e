@@ -43,6 +43,7 @@ function Navbar() {
           <div className="" id="navbar-dropdown">
             <ul className="flex items-center gap-2 font-medium p-4 md:p-0  md:space-x-4 md:flex-row md:bg-slate-200 dark:bg-gray-800 md:dark:bg-gray-900 ">
               {userDetails?.userData ? <a href={`/profile/${userDetails?.userData?.username}`}> <img src={userDetails?.userData?.avatar} className="h-9 md:h-10  md:block" alt={userDetails?.userData?.username} /> </a> : <img src={'./user.png'} className="h-5 md:h-10 hidden md:block" alt={userDetails?.userData?.username} />}
+              {userDetails?.userData && <a href="/add-product" className="bg-blue-700 whitespace-nowrap text-white text-sm md:text-lg p-2 rounded-lg">Add Product</a>}
               <li className={` ${userDetails?.userData ? 'bg-slate-600' : 'bg-rose-600 border-red-400'} border py-2 px-3 rounded-md `}>
                 {userDetails?.userData ? <button onClick={handleLogOut} className="block font-semibold rounded text-sm md:text-lg text-white hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Logout</button> :
                   <a href="/login" className="block font-semibold rounded text-sm md:text-lg text-white hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</a>
