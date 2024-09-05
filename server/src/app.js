@@ -1,0 +1,23 @@
+const express = require('express')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const userRouter = require('./routes/user.router.js')
+const productRouter = require('./routes/product.router.js')
+
+
+const app = express()
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173' ,
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    credentials:true
+}))
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true, limit:"16kb"}))
+app.use(express.static("public"))
+app.use(cookieParser())
+
+app.use('/v1/profile', userRouter)
+app.use('/v1/product', productRouter)
+
+module.exports= app
