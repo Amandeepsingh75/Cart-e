@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended:true, limit:"16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
 
-app.use('/v1/profile', userRouter)
-app.use('/v1/product', productRouter)
+app.use('/profile', userRouter)
+app.use('/product', productRouter)
 
 module.exports= app
