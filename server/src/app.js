@@ -8,7 +8,7 @@ const productRouter = require('./routes/product.router.js')
 const app = express()
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "https://cart-e-server.vercel.app",
+    origin:"*",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     credentials: true,
   })
