@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser')
 const userRouter = require('./routes/user.router.js')
 const productRouter = require('./routes/product.router.js')
 
-
 const app = express()
 app.use(cors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:5173' ,
