@@ -10,7 +10,6 @@ import AddProducts from "./components/products/AddNewProduct"
 function App() {
   return (
     <>
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
