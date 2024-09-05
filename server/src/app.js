@@ -6,11 +6,13 @@ const productRouter = require('./routes/product.router.js')
 
 
 const app = express()
-app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173' ,
-    methods: 'GET,POST,PUT,DELETE,OPTIONS',
-    credentials:true
-}))
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "https://cart-e-server.vercel.app",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    credentials: true,
+  })
+);
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true, limit:"16kb"}))
