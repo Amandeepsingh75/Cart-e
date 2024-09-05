@@ -1,7 +1,7 @@
 
 const Error404 = () => {
     return (
-        <>
+        <> 
             <section className="bg-white dark:bg-gray-900 h-screen">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 h-full lg:px-6">
                     <div className="mx-auto max-w-screen-sm text-center h-full flex flex-col justify-center">
