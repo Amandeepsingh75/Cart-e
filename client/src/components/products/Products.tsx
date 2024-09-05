@@ -14,7 +14,7 @@ const Products = () => {
 
 // fetch productsData from api
     const fetchProducts = async () => {
-        await fetch(`${import.meta.env.VITE_ORIGIN}/product/get-products`, { method: 'GET' })
+        await fetch(`${import.meta.env.VITE_ORIGIN}/product/get-products`)
             .then(res => res.json())
             .then(data => setProducts(data))
     }
