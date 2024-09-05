@@ -1,7 +1,7 @@
 const Products = require("../models/product.model.js");
 const uploadOnCloud = require("../utils/cloudinary.js");
 
-//  add your own products
+//  add your own products 
 const addProduct = async (req, res) => {
   try {
     const { productName, price, description } = req.body;
