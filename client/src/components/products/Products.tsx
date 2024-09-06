@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import ProductCard from "./ProductCard"
 import Searchbar from "../../shared/Searchbar"
-import Cart from "../Cart"
+import Cart from "../Cart/Cart"
 import Skeleton from "../../shared/Skeleton"
 
 
@@ -36,6 +36,7 @@ const Products = () => {
     let filterSearchPrducts = products?.filter((data: { productName: string }) => {
         return searchValue == '' ? data : data.productName.toLowerCase().includes(searchValue.toLowerCase())
     })
+    
     return (
         <>
             <Searchbar setSearchValue={setSearchValue} />

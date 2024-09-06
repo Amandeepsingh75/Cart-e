@@ -1,5 +1,6 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import CartItems from './CartItems'
 
 interface CartProps {
     cartProducts: {
@@ -25,7 +26,6 @@ const Cart: React.FC<CartProps> = ({ cartProducts, open, setOpen }) => {
                     transition
                     className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-500 ease-in-out data-[closed]:opacity-0"
                 />
-
                 <div className="fixed inset-0 overflow-hidden">
                     <div className="absolute inset-0 overflow-hidden">
                         <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
@@ -53,35 +53,7 @@ const Cart: React.FC<CartProps> = ({ cartProducts, open, setOpen }) => {
                                         <div className="mt-8">
                                             <div className="flow-root">
                                                 <ul role="list" className="-my-6 divide-y divide-gray-200">
-                                                    {cartProducts?.map((product, i) => {
-                                                        const productTotal = product?.items?.price * product?.quantity
-                                                        return (product?.quantity > 0 && <li key={i} className="flex py-6">
-                                                            <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                                <img
-                                                                    alt={product?.items?.productImage}
-                                                                    src={product?.items?.productImage}
-                                                                    className="h-full w-full object-contain object-center"
-                                                                />
-                                                            </div>
-
-                                                            <div className="ml-4 flex flex-1 flex-col">
-                                                                <div>
-                                                                    <div className="flex justify-between text-base font-medium text-gray-900">
-                                                                        <h3>
-                                                                            <a href={'#'}>{product?.items?.productName}</a>
-                                                                        </h3>
-                                                                        <p className="ml-4">₹ {productTotal}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="flex flex-1 items-end justify-between text-sm">
-                                                                    <p className="ml-4">₹ {product?.items?.price} * {product?.quantity}</p>
-
-                                                                    <p className="text-gray-500">Qty {product?.quantity}</p>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        )
-                                                    })}
+                                                    <CartItems cartProducts={cartProducts} />
                                                 </ul>
                                             </div>
                                         </div>

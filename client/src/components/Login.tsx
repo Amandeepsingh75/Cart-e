@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-// import { ToastContainer, toast } from 'react-toastify';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ThrottlingFunc from '../shared/ThrottlingOnClick'
 
 function Login() {
     const navigate = useNavigate()
@@ -11,6 +12,7 @@ function Login() {
     })
     const [error, setError] = useState(false)
 
+    // onChange funct
     const onChangeFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
         const id = e.target.id
@@ -19,9 +21,11 @@ function Login() {
             [id]: value
         })
     }
+
+    // login function
     const handleLogin = async (e: { preventDefault: () => void }) => {
+        e.preventDefault()
         try {
-            e.preventDefault()
             const { usernameOrEmail, password } = loginUserData;
             let loginInput;
             { usernameOrEmail.includes('@') ? loginInput = { email: usernameOrEmail, password } : loginInput = { username: usernameOrEmail, password } }
@@ -34,7 +38,7 @@ function Login() {
                 body: JSON.stringify(loginInput)
             })
             if (response.ok) {
-                // toast("Login Successfully!", { type: 'success' })
+                toast("Login Successfully!", { type: 'success' })
                 localStorage.setItem('accessToken', (document?.cookie.split('=')[1]))
                 setTimeout(() => {
                     navigate('/')
@@ -42,17 +46,17 @@ function Login() {
             } else {
                 setError(true)
             }
-            // const data = await response.json()
         } catch (error) {
             throw new Error(error as string)
         }
-
-
     }
+
+    // throttle funct calling by importing
+    const throttledHandleLogin = ThrottlingFunc(handleLogin, 3000);
+
     return (
         <div className="bg content-center h-screen">
-            {/* <ToastContainer /> */}
-
+            <ToastContainer />
             <header className="max-w-lg mx-auto">
                 <h1 className="text-4xl font-bold text-white text-center">Login Form</h1>
             </header>
@@ -71,8 +75,8 @@ function Login() {
                             <label className="block text-gray-700 text-sm font-bold mb-2 ml-3" htmlFor="password">Password</label>
                             <input type="password" id="password" value={loginUserData.password} onChange={onChangeFunc} className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" />
                         </div>
+                        <button type="button" onClick={throttledHandleLogin} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" >Sign In</button>
                         {error && <div className="text-red-500 font-semibold text-sm">User not found . Sign up first</div>}
-                        <button onClick={handleLogin} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" >Sign In</button>
                     </form>
                 </section>
             </main>

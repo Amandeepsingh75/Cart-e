@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Navbar() {
   const [userDetails, setUserDetails] = useState<any>()
@@ -18,28 +20,30 @@ function Navbar() {
   }
 
   // User logout function
-  const handleLogOut = async () => {
+  const handleLogOut = () => {
     if (!userDetails) return 'User is alerady logout'
-    await fetch(`${import.meta.env.VITE_ORIGIN}/profile/logout`, {
+    fetch(`${import.meta.env.VITE_ORIGIN}/profile/logout`, {
       method: 'POST',
       credentials: 'include'
     })
       .then(res => res.json())
       .then(data => setUserDetails(data))
     localStorage.removeItem('accessToken')
+    toast("Logout Successfully!", { type: 'warning' })
   }
-  useEffect(() => {
-    fetchUserDetails()
-  }, [])
-  
+
+    useEffect(() => {
+      fetchUserDetails()
+    }, [])
+
   return (
     <>
       <nav className="bg-slate-200 border-gray-200 dark:bg-gray-900 dark:border-gray-700 ">
+        <ToastContainer autoClose={2500} />
         <div className="max-w-screen-xl flex  items-center justify-between mx-auto  p-2 md:p-4">
           <a href="/" className="flex items-center space-x-2 rtl:space-x-reverse">
             <div className="font-semibold md:text-lg text-sm uppercase">cart-e</div>
           </a>
-
           <div className="" id="navbar-dropdown">
             <ul className="flex items-center gap-2 font-medium p-4 md:p-0  md:space-x-4 md:flex-row md:bg-slate-200 dark:bg-gray-800 md:dark:bg-gray-900 ">
               {userDetails?.userData ? <a href={`/profile/${userDetails?.userData?.username}`}> <img src={userDetails?.userData?.avatar} className="h-9 md:h-10  md:block" alt={userDetails?.userData?.username} /> </a> : <img src={'./user.png'} className="h-5 md:h-10 hidden md:block" alt={userDetails?.userData?.username} />}

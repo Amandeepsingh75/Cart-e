@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-// import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ThrottlingFunc from '../shared/ThrottlingOnClick'
 
 
 
@@ -11,6 +13,7 @@ const Register = () => {
         email: '',
         password: ''
     })
+    const [showError, setShowError] = useState(false)
     const navigate = useNavigate()
 
     const onChangeFunc = (e: any) => {
@@ -35,17 +38,22 @@ const Register = () => {
         })
         if (response.ok) {
             setUserData({ username: '', email: '', password: '', avatar: '' })
-            // toast("User Registered Successfully!", { type: 'success' })
+            toast("User Registered Successfully!", { type: 'success' })
 
             setTimeout(() => {
                 navigate('/login')
             }, 300)
         }
+        else {
+            setShowError(true)
+        }
     }
+
+    const throttledHandleRegister = ThrottlingFunc(handleClick, 3000);
 
     return (
         <div className="bg content-center h-full">
-            {/* <ToastContainer autoClose={2000}/> */}
+            <ToastContainer autoClose={2000} />
             <header className="max-w-lg mx-auto">
                 <h1 className="text-4xl font-bold text-white text-center">Regiteration Form</h1>
             </header>
@@ -71,10 +79,11 @@ const Register = () => {
                             <input type="text" id="email" value={userData.email} onChange={onChangeFunc} className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-1" />
                         </div>
                         <div className="mb-6 pt-3 rounded bg-gray-200">
-                            <label className="block text-gray-700 text-sm font-bold mb-2 ml-3" htmlFor="password">Password</label>
+                            <label className="block text-gray-700 text-sm font-bold ml-3" htmlFor="password">Password</label>
                             <input type="password" id="password" value={userData.password} onChange={onChangeFunc} className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-1" />
                         </div>
-                        <button onClick={handleClick} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" >Sign Up</button>
+                        {showError && <div className="text-red-700 font-semibold text-sm mb-2">Please fill All the Fields</div>}
+                        <button onClick={throttledHandleRegister} className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" >Sign Up</button>
                     </form>
                 </section>
             </main>

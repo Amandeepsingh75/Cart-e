@@ -2,6 +2,8 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "../../shared/Navbar";
+import ThrottlingFunc from "../../shared/ThrottlingOnClick";
 
 const AddProducts = () => {
     const [userData, setUserData] = useState({
@@ -10,8 +12,11 @@ const AddProducts = () => {
         Description: '',
         price: ''
     })
+    const [error, setError] = useState(false)
+
     const navigate = useNavigate()
 
+    // handleonChange 
     const onChangeFunc = (e: any) => {
         const type = e.target.type
         const value = type == 'file' ? e.target.files[0] : e.target.value
@@ -21,6 +26,8 @@ const AddProducts = () => {
             [id]: value
         })
     }
+
+    // add product function 
     const handleAddProduct = async (e: { preventDefault: () => void }) => {
         try {
             e.preventDefault()
@@ -43,16 +50,22 @@ const AddProducts = () => {
                 toast("Product added Successfully!", { type: 'success' })
                 setTimeout(() => {
                     navigate('/')
-                }, 3000)
+                }, 300)
 
+            } else {
+                setError(true)
             }
         } catch (error) {
             throw new Error(`Cannot add product ${error}`)
         }
     }
 
+    // throttling on add product function
+    const throttledHandleRegister = ThrottlingFunc(handleAddProduct, 3000);
+
     return (
         <>
+            <Navbar />
             <div className="bg-green-800 content-center h-screen">
                 <ToastContainer autoClose={2500} />
                 <header className="max-w-lg mx-auto">
@@ -75,11 +88,12 @@ const AddProducts = () => {
                                 <input type="text" id="Description" value={userData.Description} onChange={onChangeFunc} className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-1" />
                             </div>
                             <div className="mb-6 pt-3 rounded bg-gray-200">
-                                <label className="block text-gray-700 text-sm font-bold mb-2 ml-3" htmlFor="password">Price</label>
+                                <label className="block text-gray-700 text-sm font-bold ml-3" htmlFor="password">Price</label>
                                 <input type="text" id="price" value={userData.price} onChange={onChangeFunc} className="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-1" />
                             </div>
+                            {error && <div className="text-red-500 font-semibold text-sm mb-2">Please fill all fields</div>}
+                            <button onClick={throttledHandleRegister} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" >Add Your Product</button>
 
-                            <button onClick={handleAddProduct} className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" >Add Your Product</button>
                         </form>
                     </section>
                 </main>
